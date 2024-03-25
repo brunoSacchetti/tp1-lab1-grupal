@@ -17,6 +17,8 @@ app.use(express.urlencoded({
 })); //Esto es para formData
 app.use(express.json())
 
+app.set('view engine', 'ejs');
+
 
 /* SISTEMA DE RUTEOS */
 app.get("/", (req, res) => {
@@ -29,7 +31,7 @@ app.get("/empresas", (req, res) => {
 });
 
 app.get("/noticias", (req, res) => {
-  res.render("administrarNoticia.ejs")
+  res.render("administrarNoticia.html")
 })
 
 
