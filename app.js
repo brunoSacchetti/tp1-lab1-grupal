@@ -69,9 +69,22 @@ app.post('/guardarEmpresa', (req, res) => {
   });
 });
 
-app.get("/noticias", (req, res) => {
-  res.render("administrarNoticia.html")
-})
+app.get('/noticias', (req, res) => {
+  // Consulta SQL para obtener las frutas de la base de datos
+  const sql = 'SELECT denominacion FROM empresa';
+
+  // Ejecutar la consulta SQL
+  conexion.query(sql, (error, resultados) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta:', error);
+      res.status(500).send('Error interno del servidor');
+      return;
+    }
+    
+    // Renderizar el formulario con los resultados de la consulta
+    res.render('administrarNoticia.ejs', { denominacionEmpresa: resultados });
+  });
+});
 
 
 const puerto = 3300;

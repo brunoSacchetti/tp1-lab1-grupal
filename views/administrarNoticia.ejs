@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Noticias</title>
+  
   <script src="https://cdn.tiny.cloud/1/470vl6oydu4y113xe2muphz55fln53vldzpewunxn0v858qz/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
   <script>
   
@@ -69,8 +73,52 @@
   
   </script>
 </head>
-<body><textarea id="editorHtml"></textarea>
-<button onclick="verHTML()">VER HTML</button>
+
+
+<body>
+  <h1>Administrador de Noticias</h1>
+
+    <!-- Formulario para alta, baja, modificación y consulta de noticias -->
+    <form id="formularioNoticia" enctype="multipart/form-data">
+        <!-- Campo de título de la noticia -->
+        <label for="titulo">Título de la Noticia:</label><br>
+        <input type="text" id="titulo" name="titulo" required><br><br>
+
+        <!-- Campo de resumen de la noticia -->
+        <label for="resumen">Resumen de la Noticia:</label><br>
+        <textarea id="resumen" name="resumen" required cols="50" rows="5"></textarea><br><br>
+
+        <!-- Campo de contenido HTML -->
+        <label for="contenido">Contenido HTML:</label><br>
+        <textarea id="editorHtml"></textarea>
+        <button onclick="verHTML()">VER HTML</button>
+        
+
+        <!-- Campo de publicada (carácter) -->
+        <label for="publicada">Publicada (carácter):</label><br>
+        <input type="text" id="publicada" name="publicada" maxlength="1" required><br><br>
+
+        <!-- Campo de fecha de publicación -->
+        <label for="fechaPublicacion">Fecha de Publicación:</label><br>
+        <input type="date" id="fechaPublicacion" name="fechaPublicacion" required><br><br>
+
+        <!-- Campo de subida de imagen -->
+        <label for="imagen">Imagen:</label><br>
+        <input type="text" id="imagen" name="imagen" accept="image/*"><br><br>
+
+        <label for="denominacionEmpresa">Selecciona una empresa:</label>
+        <select id="denominacionEmpresa" name="denominacionEmpresa">
+          <% denominacionEmpresa.forEach(denominacion => { %>
+            <option value="<%= denominacion.denominacion %>"><%= denominacion.denominacion %></option>
+          <% }); %>
+        </select>
+
+        <!-- Botones para enviar, modificar, eliminar y consultar la noticia -->
+        <button type="submit" onclick="altaNoticia()">Guardar</button>
+        <button type="button">Modificar</button>
+        <button type="button">Eliminar</button>
+        <button type="button">Consultar</button>
+    </form>
 </body>
 <script>
 function verHTML(){
