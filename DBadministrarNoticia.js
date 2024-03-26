@@ -24,7 +24,7 @@ function eliminarNoticia(){
         }
       };
 
-function actualizar(){
+function actualizarNoticia(){
         if (error) {
           throw error;
         } else {
