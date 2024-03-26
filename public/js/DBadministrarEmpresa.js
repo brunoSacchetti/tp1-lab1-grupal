@@ -38,8 +38,8 @@ function guardarEmpresa(datosEmpresa) {
 
   var sql = "INSERT INTO empresa (denominacion, telefono, horarioAtencion, quienesSomos, latitud, longitud, domicilio, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-  
-  conexion.query(sql, [datosEmpresa.denominacion, datosEmpresa.telefono, datosEmpresa.horario, datosEmpresa.quienesSomos, datosEmpresa.latitud, datosEmpresa.longitud, datosEmpresa.domicilio, datosEmpresa.email], function(error, results) {
+
+  conexion.query(sql, [datosEmpresa.denominacion, datosEmpresa.telefono, datosEmpresa.horario, datosEmpresa.quienesSomos, datosEmpresa.latitud, datosEmpresa.longitud, datosEmpresa.domicilio, datosEmpresa.email], function (error, results) {
     if (error) {
       throw error;
     } else {

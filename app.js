@@ -20,6 +20,8 @@ app.use(express.json())
 app.set('view engine', 'ejs');
 
 
+
+app.use(express.static(path.join(__dirname, 'public')));
 /* SISTEMA DE RUTEOS */
 app.get("/", (req, res) => {
   res.json("funciona") /* CREAR UN HOME */
