@@ -26,13 +26,36 @@ function obtenerDatosFormularioAlta() {
 
 // Función para enviar datos al servidor
 function altaEmpresa() {
-
   var datos = obtenerDatosFormularioAlta();
-  enviarDatosAlServidor(datos);
+  subidaDatosADb(datos);
 }
 
+function bajaEmpresa() {
+  const idEmpresa = document.getElementById("id_baja").value;
+  enviarDatosBajaAlServidor(idEmpresa);
+  return false;
+}
 
-function enviarDatosAlServidor(datosEmpresa) {
+function enviarDatosBajaAlServidor(idEmpresa) {
+  fetch('/eliminarEmpresa', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: idEmpresa
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Empresa eliminada:', data);
+    })
+    .catch(error => {
+      console.error('Error al eliminar empresa:', error);
+    });
+}
+
+function subidaDatosADb(datosEmpresa) {
   console.log('Enviando datos al servidor:', datosEmpresa);
 
   fetch('/guardarEmpresa', {

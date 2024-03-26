@@ -69,6 +69,19 @@ app.post('/guardarEmpresa', (req, res) => {
   });
 });
 
+app.delete('/eliminarEmpresa', (req, res) => {
+  const idEmpresa = req.body.id;
+  const sql = "DELETE FROM empresa WHERE id = ?";
+  
+  conexion.query(sql, [idEmpresa], (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Error al eliminar empresa de la base de datos' });
+    } else {
+      res.json({ message: 'Empresa eliminada correctamente' });
+    }
+  });
+});
+
 app.get("/noticias", (req, res) => {
   res.render("administrarNoticia.html")
 })
