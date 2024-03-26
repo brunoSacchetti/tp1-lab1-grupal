@@ -89,14 +89,28 @@
         <textarea id="resumen" name="resumen" required cols="50" rows="5"></textarea><br><br>
 
         <!-- Campo de contenido HTML -->
-        <label for="contenido">Contenido HTML:</label><br>
+        <label for="editorHtml">Contenido HTML:</label><br>
         <textarea id="editorHtml"></textarea>
-        <button onclick="verHTML()">VER HTML</button>
+        <button onclick="verHTML()">VER HTML</button><br><br><br>
         
 
         <!-- Campo de publicada (carácter) -->
-        <label for="publicada">Publicada (carácter):</label><br>
-        <input type="text" id="publicada" name="publicada" maxlength="1" required><br><br>
+        <!-- <label for="publicada">Publicada</label><br>
+        
+        <label class="radio-label">
+          <input type="radio" id="si" name="publicada_bool" value="true">
+          Si
+        </label>
+        
+        <label class="radio-label">
+          <input type="radio" id="no" name="publicada_bool" value="false">
+          No
+        </label><br><br> -->
+
+        <label for="si" class="radio-label">
+          <input type="radio" id="si" value="true">
+          Si
+        </label>
 
         <!-- Campo de fecha de publicación -->
         <label for="fechaPublicacion">Fecha de Publicación:</label><br>
@@ -114,16 +128,20 @@
         </select>
 
         <!-- Botones para enviar, modificar, eliminar y consultar la noticia -->
-        <button type="submit" onclick="altaNoticia()">Guardar</button>
+        <button type="submit" onclick="altaNoticia(event)">Guardar</button>
         <button type="button">Modificar</button>
         <button type="button">Eliminar</button>
         <button type="button">Consultar</button>
     </form>
+
+    <script src="/js/DBadministrarNoticia.js"></script>
 </body>
+
 <script>
 function verHTML(){
 	var content = tinymce.get("editorHtml").getContent();
 	alert(content);
 }
 </script>  
+
 </html>
