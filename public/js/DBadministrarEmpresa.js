@@ -1,6 +1,4 @@
-const conexion = require("./db")
-/* 'INSERT INTO empresa (denominacion,telefono,horarioAtencion,quienesSomos,latitud,longitud,domicilio,email) VALUES ("X","DD","DAW","DAWD",2,3,"ESPAÑA","MAXIM@GMAIL.COM" */
-
+// Función para obtener datos del formulario
 function obtenerDatosFormularioAlta() {
 
   var denominacion = document.getElementById("denominacion").value;
@@ -11,7 +9,6 @@ function obtenerDatosFormularioAlta() {
   var longitud = document.getElementById("longitud").value;
   var domicilio = document.getElementById("domicilio").value;
   var email = document.getElementById("email").value;
-
 
   var datosEmpresa = {
     denominacion: denominacion,
@@ -27,50 +24,32 @@ function obtenerDatosFormularioAlta() {
   return datosEmpresa;
 }
 
+// Función para enviar datos al servidor
 function altaEmpresa() {
 
   var datos = obtenerDatosFormularioAlta();
-
-  guardarEmpresa(datos);
+  enviarDatosAlServidor(datos);
 }
 
-function guardarEmpresa(datosEmpresa) {
 
-  var sql = "INSERT INTO empresa (denominacion, telefono, horarioAtencion, quienesSomos, latitud, longitud, domicilio, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+function enviarDatosAlServidor(datosEmpresa) {
+  console.log('Enviando datos al servidor:', datosEmpresa);
 
-
-  conexion.query(sql, [datosEmpresa.denominacion, datosEmpresa.telefono, datosEmpresa.horario, datosEmpresa.quienesSomos, datosEmpresa.latitud, datosEmpresa.longitud, datosEmpresa.domicilio, datosEmpresa.email], function (error, results) {
-    if (error) {
-      throw error;
-    } else {
-      console.log("REGISTRO AGREGADO", results);
-    }
-  });
+  fetch('/guardarEmpresa', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datosEmpresa),
+    })
+    .then(response => {
+      console.log('Respuesta del servidor recibida:', response);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Registro agregado:', data);
+    })
+    .catch(error => {
+      console.error('Error al agregar registro:', error);
+    });
 }
-
-function consultarEmpresa() {
-  if (error) {
-    throw error;
-  } else {
-    console.log("REGISTRO AGREGADO", results);
-  }
-};
-
-function eliminarEmpresa() {
-  if (error) {
-    throw error;
-  } else {
-    console.log("REGISTRO AGREGADO", results);
-  }
-};
-
-function actualizar() {
-  if (error) {
-    throw error;
-  } else {
-    console.log("REGISTRO AGREGADO", results);
-  }
-};
-
-
-conexion.end();
