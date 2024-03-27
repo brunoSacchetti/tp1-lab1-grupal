@@ -103,6 +103,22 @@ app.delete('/eliminarEmpresa', (req, res) => {
   });
 });
 
+
+//----------ELIMINAR NOTICIA
+app.delete('/eliminarNoticia', (req, res) => {
+  const idNoticia = req.body.id;
+  const sql = "DELETE FROM noticia WHERE id = ?";
+
+  conexion.query(sql, [idNoticia], (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Error al eliminar noticia de la base de datos' });
+    } else {
+      res.json({ message: 'Noticia eliminada correctamente' });
+    }
+  });
+});
+
+
 //-------------OBTENER DENOMINACION DE EMPRESA
 app.get('/noticias', (req, res) => {
   // Consulta SQL para obtener las frutas de la base de datos
@@ -140,19 +156,6 @@ app.get('/consultarNoticias', (req, res) => {
   });
 });
 
-//----------ELIMINAR NOTICIA
-app.delete('/eliminarNoticia', (req, res) => {
-  const idNoticia = req.body.id;
-  const sql = "DELETE FROM noticia WHERE id = ?";
-
-  conexion.query(sql, [idNoticia], (error, results) => {
-    if (error) {
-      res.status(500).json({ error: 'Error al eliminar noticia de la base de datos' });
-    } else {
-      res.json({ message: 'Noticia eliminada correctamente' });
-    }
-  });
-});
 
 //------------------
 const puerto = 3300;

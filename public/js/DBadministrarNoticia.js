@@ -49,6 +49,26 @@ function eliminarNoticia() {
   return false;
 }
 
+ function enviarDatosBajaAlServidor(idNoticia) {
+   fetch('/eliminarNoticia', {
+     method: 'DELETE',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+       id: idNoticia
+     }),
+   })
+   .then(response => response.json())
+   .then(data => {
+     console.log('Noticia eliminada:', data);
+   })
+   .catch(error => {
+     console.error('Error al eliminar noticia:', error);
+   });
+}
+
+
 function subidaDatosADb(datosNoticia) {
   console.log('Enviando datos al servidor:', datosNoticia);
 
@@ -99,23 +119,5 @@ function consultarNoticias() {
     });
 }
 
-async function enviarDatosBajaAlServidor(idNoticia) {
-   await fetch('/eliminarNoticia', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: idNoticia
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Noticia eliminada:', data);
-    })
-    .catch(error => {
-      console.error('Error al eliminar noticia:', error);
-    });
-}
 
 
