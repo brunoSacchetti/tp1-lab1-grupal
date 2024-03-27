@@ -41,10 +41,29 @@ app.set('view engine', 'ejs');
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+app.use('/css', express.static(path.join(__dirname, 'css')));
+
+app.use('/js', express.static(path.join(__dirname, 'js')));
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 /* SISTEMA DE RUTEOS */
+
 app.get("/", (req, res) => {
-  res.json("funciona") /* CREAR UN HOME */
+  const sql = 'SELECT id, denominacion FROM empresa';
+  conexion.query(sql, (error, resultados) => {
+    if (error) {
+      console.error('Error al ejecutar la consulta:', error);
+      res.status(500).send('Error interno del servidor');
+      return;
+    }
+
+    // Renderizar el formulario con los resultados de la consulta
+    res.render('index.ejs', {
+      empresas: resultados
+    });
+  });
 })
 
 /* ESTO ES PARA CARGAR VISTAS */
@@ -96,9 +115,13 @@ app.delete('/eliminarEmpresa', (req, res) => {
 
   conexion.query(sql, [idEmpresa], (error, results) => {
     if (error) {
-      res.status(500).json({ error: 'Error al eliminar empresa de la base de datos' });
+      res.status(500).json({
+        error: 'Error al eliminar empresa de la base de datos'
+      });
     } else {
-      res.json({ message: 'Empresa eliminada correctamente' });
+      res.json({
+        message: 'Empresa eliminada correctamente'
+      });
     }
   });
 });
@@ -111,9 +134,13 @@ app.delete('/eliminarNoticia', (req, res) => {
 
   conexion.query(sql, [idNoticia], (error, results) => {
     if (error) {
-      res.status(500).json({ error: 'Error al eliminar noticia de la base de datos' });
+      res.status(500).json({
+        error: 'Error al eliminar noticia de la base de datos'
+      });
     } else {
-      res.json({ message: 'Noticia eliminada correctamente' });
+      res.json({
+        message: 'Noticia eliminada correctamente'
+      });
     }
   });
 });
@@ -131,15 +158,17 @@ app.get('/noticias', (req, res) => {
       res.status(500).send('Error interno del servidor');
       return;
     }
-    
+
     // Renderizar el formulario con los resultados de la consulta
-    res.render('administrarNoticia.ejs', { denominacionEmpresa: resultados });
+    res.render('administrarNoticia.ejs', {
+      denominacionEmpresa: resultados
+    });
   });
 });
 
 //----------CONSULTAR TODAS LAS NOTICIAS
 app.get('/consultarNoticias', (req, res) => {
-  // Consulta SQL para obtener las frutas de la base de datos
+  // Consulta SQL para obtener las noticias de la base de datos
   const sql = 'SELECT id, titulo, resumen, publicada, fechaPublicacion FROM noticia';
 
   // Ejecutar la consulta SQL
@@ -149,14 +178,56 @@ app.get('/consultarNoticias', (req, res) => {
       res.status(500).send('Error interno del servidor');
       return;
     }
-    
-    // Renderizar el formulario con los resultados de la consulta
-    res.render('administrarNoticia.ejs', { noticias: resultados });
-    res.json({noticias: resultados});
+
+    // Enviar los resultados como respuesta JSON
+    res.json({
+      noticias: resultados
+    });
   });
 });
 
+app.get('/home/:id', function (req, res) {
+  const idEmpresa = req.params.id;
 
+  // Consulta SQL para obtener la información de la empresa
+  const sqlEmpresa = 'SELECT id, denominacion FROM empresa WHERE id = ?';
+
+  // Consulta SQL para obtener las noticias de la empresa específica
+  const sqlNoticias = 'SELECT id, titulo, resumen, publicada, fechaPublicacion FROM noticia WHERE idEmpresa = ?';
+
+  // Ejecutar la consulta SQL para obtener la información de la empresa
+  conexion.query(sqlEmpresa, [idEmpresa], (errorEmpresa, resultadosEmpresa) => {
+    if (errorEmpresa) {
+      console.error('Error al ejecutar la consulta de empresa:', errorEmpresa);
+      res.status(500).send('Error interno del servidor');
+      return;
+    }
+
+    // Verificar si se encontró la empresa
+    if (resultadosEmpresa.length === 0) {
+      res.status(404).send('Empresa no encontrada');
+      return;
+    }
+
+    // Obtener la información de la empresa
+    const empresa = resultadosEmpresa[0];
+
+    // Ejecutar la consulta SQL para obtener las noticias de la empresa
+    conexion.query(sqlNoticias, [idEmpresa], (errorNoticias, resultadosNoticias) => {
+      if (errorNoticias) {
+        console.error('Error al ejecutar la consulta de noticias:', errorNoticias);
+        res.status(500).send('Error interno del servidor');
+        return;
+      }
+
+      // Renderizar la vista home.ejs con los datos de la empresa y las noticias
+      res.render('home.ejs', {
+        empresa: empresa,
+        noticias: resultadosNoticias
+      });
+    });
+  });
+});
 //------------------
 const puerto = 3300;
 app.listen(puerto, () => {

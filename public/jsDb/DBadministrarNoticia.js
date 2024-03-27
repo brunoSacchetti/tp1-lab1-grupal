@@ -94,7 +94,7 @@ function subidaDatosADb(datosNoticia) {
 
 //MOSTRAR LISTADO DE NOTICIAS
 function consultarNoticias() {
-  console.log("mostrando noticias");
+  console.log("Mostrando noticias");
   fetch('/consultarNoticias')
     .then(response => response.json())
     .then(data => {
@@ -118,6 +118,7 @@ function consultarNoticias() {
       console.error('Error al consultar las noticias:', error);
     });
 }
+
 
 
 
