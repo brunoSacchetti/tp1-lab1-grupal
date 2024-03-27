@@ -11,8 +11,10 @@ function obtenerDatosFormularioAlta() {
   //var denominacionEmpresa = denominacionEmpresaElement.options[denominacionEmpresaElement.selectedIndex].value;
   // Variable para almacenar el ID de la empresa seleccionada
   const selectElement = document.getElementById("denominacionEmpresa");
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-  const idEmpresa = selectedOption.dataset.id;
+  //selectIndex devuelve el índice de la opción seleccionada actualmente en el elemento <select>. 
+  //.options  accede a la lista de opciones dentro del elemento <select>.
+  const selectedOption = selectElement.options[selectElement.selectedIndex]; 
+  const idEmpresa = selectedOption.dataset.id; //obtiene el valor del atributo data-id de la opción seleccionada y lo almacena en la variable idEmpresa.
 
   let datosNoticia = {
     titulo: titulo,
