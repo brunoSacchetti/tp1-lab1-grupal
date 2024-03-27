@@ -5,10 +5,14 @@ function obtenerDatosFormularioAlta() {
   let resumen = document.getElementById("resumen").value;
   let imagen = document.getElementById("imagen").value;
   let editorHtml = tinymce.get("editorHtml").getContent();
-  let publicada = document.querySelector('input[id="si"]:checked').value === 'true' ? 'y' : 'n'; // Asignar 'y' si está publicada, 'n' si no lo está
+  let publicada = document.querySelector('input[name="publicada_bool"]:checked').value === 'true' ? 'y' : 'n'; // Asignar 'y' si está publicada, 'n' si no lo está
   let fechaPublicacion = document.getElementById("fechaPublicacion").value;
-  var denominacionEmpresaElement = document.getElementById("denominacionEmpresa");
-  var denominacionEmpresa = denominacionEmpresaElement.options[denominacionEmpresaElement.selectedIndex].value;
+  //var denominacionEmpresaElement = document.getElementById("denominacionEmpresa");
+  //var denominacionEmpresa = denominacionEmpresaElement.options[denominacionEmpresaElement.selectedIndex].value;
+  // Variable para almacenar el ID de la empresa seleccionada
+  const selectElement = document.getElementById("denominacionEmpresa");
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const idEmpresa = selectedOption.dataset.id;
 
   let datosNoticia = {
     titulo: titulo,
@@ -17,7 +21,7 @@ function obtenerDatosFormularioAlta() {
     editorHtml: editorHtml,
     publicada: publicada,
     fechaPublicacion: fechaPublicacion,
-    denominacionEmpresa: denominacionEmpresa,
+    idEmpresa: idEmpresa,
   };
 
   return datosNoticia;

@@ -76,7 +76,7 @@ app.post('/guardarNoticia', (req, res) => {
   const sql = "INSERT INTO noticia (titulo, resumen, imagen, contenidoHtml, publicada, fechaPublicacion, idEmpresa) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   //ARREGLAR datosNoticia.denominacionEmpresa
-  conexion.query(sql, [datosNoticia.titulo, datosNoticia.resumen, datosNoticia.imagen, datosNoticia.editorHtml, datosNoticia.publicada,datosNoticia.fechaPublicacion, datosNoticia.denominacionEmpresa], function (error, results) {
+  conexion.query(sql, [datosNoticia.titulo, datosNoticia.resumen, datosNoticia.imagen, datosNoticia.editorHtml, datosNoticia.publicada, datosNoticia.fechaPublicacion, datosNoticia.idEmpresa], function (error, results) {
     if (error) {
       res.status(500).json({
         error: 'Error al agregar registro a la base de datos'

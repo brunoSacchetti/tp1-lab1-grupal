@@ -95,22 +95,12 @@
         
 
         <!-- Campo de publicada (carácter) -->
-        <!-- <label for="publicada">Publicada</label><br>
-        
-        <label class="radio-label">
-          <input type="radio" id="si" name="publicada_bool" value="true">
-          Si
-        </label>
-        
-        <label class="radio-label">
-          <input type="radio" id="no" name="publicada_bool" value="false">
-          No
-        </label><br><br> -->
+        <label for="publicada">Publicada</label><br>
+        <input type="radio" id="si" name="publicada_bool" value="true">
+        <label for="si" class="radio-label">Si</label>
 
-        <label for="si" class="radio-label">
-          <input type="radio" id="si" value="true">
-          Si
-        </label>
+        <input type="radio" id="no" name="publicada_bool" value="false">
+        <label for="no" class="radio-label">No</label><br><br>
 
         <!-- Campo de fecha de publicación -->
         <label for="fechaPublicacion">Fecha de Publicación:</label><br>
@@ -123,7 +113,7 @@
         <label for="denominacionEmpresa">Selecciona una empresa:</label>
         <select id="denominacionEmpresa" name="denominacionEmpresa">
           <% denominacionEmpresa.forEach(denominacion => { %>
-            <option value="<%= denominacion.denominacion %>"><%= denominacion.denominacion %></option>
+            <option value="<%= denominacion.denominacion %>" data-id="<%= denominacion.id %>"><%= denominacion.denominacion %></option>
           <% }); %>
         </select>
 
