@@ -7,9 +7,6 @@ function obtenerDatosFormularioAlta() {
   let editorHtml = tinymce.get("editorHtml").getContent();
   let publicada = document.querySelector('input[name="publicada_bool"]:checked').value === 'true' ? 'y' : 'n'; // Asignar 'y' si está publicada, 'n' si no lo está
   let fechaPublicacion = document.getElementById("fechaPublicacion").value;
-  //var denominacionEmpresaElement = document.getElementById("denominacionEmpresa");
-  //var denominacionEmpresa = denominacionEmpresaElement.options[denominacionEmpresaElement.selectedIndex].value;
-  // Variable para almacenar el ID de la empresa seleccionada
   const selectElement = document.getElementById("denominacionEmpresa");
   //selectIndex devuelve el índice de la opción seleccionada actualmente en el elemento <select>. 
   //.options  accede a la lista de opciones dentro del elemento <select>.
@@ -29,6 +26,15 @@ function obtenerDatosFormularioAlta() {
   return datosNoticia;
 }
 
+function limpiarCamposNoticia() {
+  document.getElementById("titulo").value = "";
+  document.getElementById("resumen").value = "";
+  document.getElementById("imagen").value = "";
+  tinymce.get("editorHtml").setContent(""); // Limpiar contenido del editor HTML
+  document.getElementById("si").checked = true; // Establecer opción "Si" por defecto
+  document.getElementById("fechaPublicacion").value = "";
+}
+
 // Función para enviar datos al servidor
 function altaNoticia(event) {
   event.preventDefault();
@@ -37,11 +43,11 @@ function altaNoticia(event) {
   subidaDatosADb(datos);
 }
 
-/*function bajaEmpresa() {
-  const idEmpresa = document.getElementById("id_baja").value;
-  enviarDatosBajaAlServidor(idEmpresa);
+function eliminarNoticia() {
+  const idNoticia = document.getElementById("id_noticia").value;
+  enviarDatosBajaAlServidor(idNoticia);
   return false;
-}*/
+}
 
 function subidaDatosADb(datosNoticia) {
   console.log('Enviando datos al servidor:', datosNoticia);
@@ -59,29 +65,57 @@ function subidaDatosADb(datosNoticia) {
     })
     .then(data => {
       console.log('Registro agregado:', data);
+      limpiarCamposNoticia();
     })
     .catch(error => {
       console.error('Error al agregar registro:', error);
     });
 }
 
-/*function enviarDatosBajaAlServidor(idEmpresa) {
-  fetch('/eliminarEmpresa', {
+//MOSTRAR LISTADO DE NOTICIAS
+function consultarNoticias() {
+  console.log("mostrando noticias");
+  fetch('/consultarNoticias')
+    .then(response => response.json())
+    .then(data => {
+      const noticias = data.noticias;
+      const tbody = document.querySelector('#tablaNoticias tbody');
+      tbody.innerHTML = ''; // Limpiar el contenido actual de la tabla
+
+      noticias.forEach(noticia => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${noticia.id}</td>
+          <td>${noticia.titulo}</td>
+          <td>${noticia.resumen}</td>
+          <td>${noticia.publicada}</td>
+          <td>${noticia.fechaPublicacion}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Error al consultar las noticias:', error);
+    });
+}
+
+async function enviarDatosBajaAlServidor(idNoticia) {
+   await fetch('/eliminarNoticia', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: idEmpresa
+        id: idNoticia
       }),
     })
     .then(response => response.json())
     .then(data => {
-      console.log('Empresa eliminada:', data);
+      console.log('Noticia eliminada:', data);
     })
     .catch(error => {
-      console.error('Error al eliminar empresa:', error);
+      console.error('Error al eliminar noticia:', error);
     });
-}*/
+}
 
 

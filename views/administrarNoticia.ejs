@@ -120,10 +120,27 @@
         <!-- Botones para enviar, modificar, eliminar y consultar la noticia -->
         <button type="submit" onclick="altaNoticia(event)">Guardar</button>
         <button type="button">Modificar</button>
-        <button type="button">Eliminar</button>
-        <button type="button">Consultar</button>
-    </form>
+    </form><br><br><br>
 
+    <!-- Mostrar noticias cargadas -->
+    <button type="button" onclick="consultarNoticias()">Listar Noticias</button><input type="number" id="id_noticia" placeholder="Coloque id a eliminar..." required><button onclick="eliminarNoticia()">Eliminar</button>
+    <table id="tablaNoticias">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Título</th>
+          <th scope="col">Resumen</th>
+          <!-- <th>Contenido HTML</th> -->
+          <th scope="col">Publicada</th>
+          <th scope="col">Fecha de Publicación</th>
+          <!-- <th>Empresa</th> -->
+        </tr>
+      </thead>
+      <tbody>
+      
+      </tbody>
+    </table>
+    
     <script src="/js/DBadministrarNoticia.js"></script>
 </body>
 
